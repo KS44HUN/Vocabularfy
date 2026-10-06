@@ -23,6 +23,10 @@
 
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
 
+        .sr-only {
+            position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+            overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
+        }
         body { padding-bottom: env(safe-area-inset-bottom); }
     </style>
 </head>
@@ -32,23 +36,17 @@
 
     <!-- Header -->
     <header class="bg-indigo-600 dark:bg-indigo-900 text-white shadow-lg p-3 sm:p-4 sticky top-0 z-40">
-        <div class="max-w-4xl mx-auto flex flex-wrap justify-between items-center gap-2">
+        <div class="max-w-4xl mx-auto flex justify-between items-center gap-2">
             <button onclick="showSetup()" aria-label="Visszaugrás a főoldalra" class="text-left flex items-center gap-2 text-lg sm:text-xl md:text-2xl font-bold tracking-tight hover:opacity-95 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 rounded-lg p-1">
                 <i class="fa-solid fa-graduation-cap text-indigo-200"></i> 
-                <span>Szógyakorló App</span>
+                <span>Vocabularfy</span>
             </button>
             
-            <div class="flex flex-wrap justify-end items-center gap-2 sm:gap-3">
+            <div class="flex items-center gap-2 sm:gap-3">
                 <!-- Streak display -->
                 <div class="bg-indigo-700 dark:bg-indigo-800 px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 text-amber-300 shadow-sm border border-indigo-500/30" title="Napi sorozat">
                     <i class="fa-solid fa-fire text-amber-400"></i>
-                    <span id="streak-count">1</span> <span id="streak-unit">nap</span>
-                </div>
-
-                <!-- Language Toggle -->
-                <div role="group" aria-label="Nyelv / Language" class="flex rounded-xl overflow-hidden border border-indigo-500/30 shadow-sm text-xs sm:text-sm font-bold">
-                    <button type="button" id="lang-btn-hu" onclick="setLanguage('hu')" aria-pressed="true" class="min-h-[44px] px-2.5 bg-white text-indigo-700">🇭🇺 HU</button>
-                    <button type="button" id="lang-btn-en" onclick="setLanguage('en')" aria-pressed="false" class="min-h-[44px] px-2.5 bg-indigo-700 dark:bg-indigo-800 text-white">🇬🇧 EN</button>
+                    <span id="streak-count">1</span> nap
                 </div>
 
                 <!-- Theme Toggle Button -->
@@ -114,16 +112,16 @@
             <fieldset>
                 <legend class="block text-sm font-semibold text-slate-600 dark:text-slate-300 mb-2">Szavak száma ebben a körben:</legend>
                 <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                    <button type="button" onclick="selectLimit(5, this)" class="limit-btn min-h-[40px] py-2 rounded-xl text-sm font-bold border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200">5</button>
-                    <button type="button" onclick="selectLimit(10, this)" class="limit-btn min-h-[40px] py-2 rounded-xl text-sm font-bold border-2 border-indigo-600 bg-indigo-600 text-white">10</button>
-                    <button type="button" onclick="selectLimit(20, this)" class="limit-btn min-h-[40px] py-2 rounded-xl text-sm font-bold border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200">20</button>
-                    <button type="button" onclick="selectLimit(50, this)" class="limit-btn min-h-[40px] py-2 rounded-xl text-sm font-bold border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200">50</button>
-                    <button type="button" onclick="selectLimit(100, this)" class="limit-btn min-h-[40px] py-2 rounded-xl text-sm font-bold border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200">100</button>
-                    <button type="button" onclick="selectLimit('all', this)" class="limit-btn min-h-[40px] py-2 rounded-xl text-sm font-bold border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200">Összes</button>
+                    <button type="button" onclick="selectLimit(5)" class="limit-btn min-h-[40px] py-2 rounded-xl text-sm font-bold border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200">5</button>
+                    <button type="button" onclick="selectLimit(10)" class="limit-btn min-h-[40px] py-2 rounded-xl text-sm font-bold border-2 border-indigo-600 bg-indigo-600 text-white">10</button>
+                    <button type="button" onclick="selectLimit(20)" class="limit-btn min-h-[40px] py-2 rounded-xl text-sm font-bold border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200">20</button>
+                    <button type="button" onclick="selectLimit(50)" class="limit-btn min-h-[40px] py-2 rounded-xl text-sm font-bold border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200">50</button>
+                    <button type="button" onclick="selectLimit(100)" class="limit-btn min-h-[40px] py-2 rounded-xl text-sm font-bold border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200">100</button>
+                    <button type="button" onclick="selectLimit('all')" class="limit-btn min-h-[40px] py-2 rounded-xl text-sm font-bold border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200">Összes</button>
                 </div>
             </fieldset>
 
-            <button onclick="startSession()" class="w-full min-h-[52px] bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold py-3.5 rounded-xl shadow-lg text-lg transition-all active:scale-[0.98]">
+            <button onclick="startSession()" class="w-full min-h-[52px] bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold py-3.5 rounded-xl shadow-lg text-lg transition-all active:scale-98">
                 Indítás <i class="fa-solid fa-play ml-2 text-sm"></i>
             </button>
 
@@ -180,13 +178,12 @@
                     <form onsubmit="checkTypedAnswer(event)" class="flex flex-col gap-3">
                         <input type="text" id="type-input" placeholder="Írd be a fordítást..." class="w-full text-center text-base sm:text-lg p-3.5 border-2 border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 dark:text-white rounded-xl focus:border-indigo-500 focus:outline-none" autocomplete="off">
                         <button type="submit" id="type-submit-btn" class="w-full min-h-[48px] bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl">Ellenőrzés</button>
-                        <button type="button" id="type-skip-btn" onclick="skipTypedAnswer()" class="w-full min-h-[44px] bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-semibold py-2.5 rounded-xl">Nem tudom</button>
                     </form>
                 </div>
 
                 <!-- Flashcard Mode -->
                 <div id="flashcard-mode" class="hidden mt-4 space-y-4">
-                    <div class="card-flip w-full h-44 sm:h-48 cursor-pointer rounded-xl" role="button" tabindex="0" onclick="flipCard()" onkeydown="handleCardKeyDown(event)">
+                    <div class="card-flip w-full h-44 sm:h-48 cursor-pointer rounded-xl" tabindex="0" onclick="flipCard()" onkeydown="handleCardKeyDown(event)">
                         <div id="card-inner" class="card-inner relative w-full h-full text-center rounded-xl border-2 border-dashed border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-slate-900 flex items-center justify-center p-4">
                             <div class="card-front absolute w-full h-full flex flex-col justify-center items-center">
                                 <span class="text-sm text-indigo-600 dark:text-indigo-400 font-semibold"><i class="fa-solid fa-arrows-rotate mr-1"></i> Kattints a megfordításhoz!</span>
@@ -221,7 +218,7 @@
             </div>
 
             <!-- Feedback Message -->
-            <div id="feedback" role="status" aria-live="polite" class="mt-4 p-3 rounded-xl text-center font-bold hidden shadow-sm"></div>
+            <div id="feedback" class="mt-4 p-3 rounded-xl text-center font-bold hidden shadow-sm"></div>
         </section>
 
         <!-- SUMMARY SCREEN -->
@@ -232,7 +229,7 @@
 
             <div class="grid grid-cols-3 gap-2 sm:gap-4 mb-8">
                 <div class="bg-slate-50 dark:bg-slate-900 p-3 rounded-xl border border-slate-100 dark:border-slate-700">
-                    <span class="block text-xs text-slate-500 uppercase font-bold">Összesen</span>
+                    <span class="block text-xs text-slate-500 uppercase font-bold">Összes</span>
                     <span id="sum-total" class="text-xl sm:text-2xl font-bold">0</span>
                 </div>
                 <div class="bg-green-50 dark:bg-green-950/30 p-3 rounded-xl border border-green-100 dark:border-green-800/40">
@@ -263,7 +260,7 @@
 
     <script>
         let defaultWords = [
-            /*{hu:"képesség",en:"ability"}, {hu:"külföld, külföldön",en:"abroad"}, {hu:"szállás, elszállásolás",en:"accommodation"}, {hu:"elér",en:"achieve"},
+            {hu:"képesség",en:"ability"}, {hu:"külföld, külföldön",en:"abroad"}, {hu:"szállás, elszállásolás",en:"accommodation"}, {hu:"elér",en:"achieve"},
             {hu:"eljátszik",en:"act out"}, {hu:"alkalmazkodik",en:"adapt"}, {hu:"megengedi magának (anyagilag)",en:"afford"}, {hu:"hozzáállás",en:"approach"},
             {hu:"számtan",en:"arithmetic"}, {hu:"újságcikk",en:"article"}, {hu:"rajzóra, technikaóra",en:"arts and crafts class"}, {hu:"humán tárgyak",en:"arts subjects"},
             {hu:"ami ...-t illeti",en:"as for..."}, {hu:"értékel",en:"assess"}, {hu:"legalább",en:"at least"}, {hu:"jár vhová",en:"attend"},
@@ -282,8 +279,7 @@
             {hu:"alkalmaz, foglalkoztat",en:"employ"}, {hu:"bátorító",en:"encouraging"}, {hu:"élvezetes",en:"enjoyable"}, {hu:"lelkes",en:"enthusiastic"},
             {hu:"különösen",en:"especially"}, {hu:"csereprogram",en:"exchange programme"}, {hu:"kiállítás",en:"exhibition"}, {hu:"tapasztal",en:"experience"},
             {hu:"kísérlet",en:"experiment"}, {hu:"megmagyaráz",en:"explain"}, {hu:"kifejezés",en:"expression"}, {hu:"tanórán kívüli tevékenység",en:"extra-curricular activity"},
-            {hu:"nagyon érdekes, izgalmas",en:"fascinating"}, {hu:"finanszíroz, pénzel",en:"finance"}, {hu:"személyes tapasztalat",en:"first-hand experience"}, {hu:"lapos képernyős",en:"flat-screen"},
-            {hu:"szeret, kedvel vmit",en:"fond of sg"}, {hu:"osztályfőnök",en:"form tutor"}, {hu:"alapítvány",en:"foundation"}, {hu:"ijedt",en:"frightened"},
+            {hu:"nagyon érdekes, izgalmas",en:"fascinating"}, {hu:"finanszíroz, pénzel",en:"finance"}, {hu:"személyes tapasztalat",en:"first-hand experience"}, {hu:"lapos képernyős",en:"flat-screen"}, {hu:"szeret, kedvel vmit",en:"fond of sg"}, {hu:"osztályfőnök",en:"form tutor"}, {hu:"alapítvány",en:"foundation"}, {hu:"ijedt",en:"frightened"},
             {hu:"bejár, utazgat, boldogul",en:"get (got, got) around"}, {hu:"átázik",en:"get (got, got) wet"}, {hu:"kirándulni megy",en:"go (went, gone) hiking"}, {hu:"céltudatos",en:"goal-oriented"},
             {hu:"osztályzat",en:"grade"}, {hu:"nyelvtan",en:"grammar"}, {hu:"gimnázium",en:"grammar school"}, {hu:"tornaterem",en:"gym"},
             {hu:"szorgalmas",en:"hard-working"}, {hu:"örökség",en:"heritage"}, {hu:"elképeszt",en:"imagine"}, {hu:"türelmetlen",en:"impatient"},
@@ -301,9 +297,7 @@
             {hu:"büszke",en:"proud"}, {hu:"igazol, bizonyít",en:"prove"}, {hu:"biztosít, nyújt",en:"provide"}, {hu:"pszichológus",en:"psychologist"},
             {hu:"normál osztály",en:"regular class"}, {hu:"próba",en:"rehearsal"}, {hu:"odavágó, tárgyhoz tartozó",en:"relevant"}, {hu:"megbízható",en:"reliable"},
             {hu:"felzárkóztató óra",en:"remedial class"}, {hu:"zárkózott, visszahúzódó",en:"reserved"}, {hu:"felelősségteljes",en:"responsible"}, {hu:"rímelő",en:"rhyming"},
-            {hu:"szalagavató",en:"school-leaving ceremony"},*/
-            
-            {hu:"érettségi vizsga",en:"school-leaving exam"}, {hu:"reál tárgyak",en:"science subjects"}, {hu:"képernyő, monitor",en:"screen"},
+            {hu:"szalagavató",en:"school-leaving ceremony"}, {hu:"érettségi vizsga",en:"school-leaving exam"}, {hu:"reál tárgyak",en:"science subjects"}, {hu:"képernyő, monitor",en:"screen"},
             {hu:"középiskola",en:"secondary school"}, {hu:"szakközépiskola",en:"secondary technical school"}, {hu:"tanulmányi félév",en:"semester"}, {hu:"felső tagozat",en:"senior section"},
             {hu:"humorérzék",en:"sense of humour"}, {hu:"jó példát mutat vkinek",en:"set (set, set) a good example to sy"}, {hu:"megosztja a költségeket",en:"share costs"}, {hu:"félénk",en:"shy"},
             {hu:"látnivaló, nevezetesség",en:"sight"}, {hu:"hasonlóság",en:"similarity"}, {hu:"készség",en:"skill"}, {hu:"szakmunkás",en:"skilled worker"},
@@ -324,7 +318,7 @@
         let selectedMode = 'quiz';
         let selectedDirection = 'en-hu';
         let selectedLimit = 10;
-
+        
         let sessionWords = [];
         let failedWords = [];
         let currentIndex = 0;
@@ -332,298 +326,34 @@
         let wrongAnswers = 0;
         let isAnswered = false;
         let isFlipped = false;
-        let sessionActive = false;
         let nextTimeoutId = null;
         let isTFCurrentCorrect = false;
-        let currentStreak = 1;
-        let lastFeedback = null;
 
         // Matching Game State
         let matchLeftSelected = null;
         let matchRightSelected = null;
         let matchedPairsCount = 0;
-        let matchLocked = false;
 
         const NEXT_WORD_DELAY = 5000;
-        const FEEDBACK_OK = 'bg-green-100 text-green-800 border border-green-300';
-        const FEEDBACK_BAD = 'bg-red-100 text-red-800 border border-red-300';
-        const FEEDBACK_WARN = 'bg-amber-100 text-amber-800 border border-amber-300';
-
-        // ======================= NYELV / I18N =======================
-        // A kulcsok a magyar (alap) szövegek, az értékek az angol fordítások.
-        // A {0}, {1} helyőrzők a t() hívás paramétereivel töltődnek ki.
-        const I18N = {
-            'Ugrás a tartalomhoz': 'Skip to content',
-            'Vocabularfy - A te Angol-Magyar Szógyakorlód': 'Vocabularfy - Your English-Hungarian Vocabulary Trainer',
-            'Szógyakorló App': 'Vocab Trainer App',
-            'Visszaugrás a főoldalra': 'Back to the home screen',
-            'Napi sorozat': 'Daily streak',
-            'Váltás sötét és világos mód között': 'Switch between dark and light mode',
-            'Sötét mód': 'Dark mode',
-            'Világos mód': 'Light mode',
-            'Haladás:': 'Progress:',
-            'Helyes:': 'Correct:',
-            'Hibás:': 'Wrong:',
-            'Beállítások': 'Settings',
-            'Gyakorlás iránya:': 'Practice direction:',
-            '🇬🇧 Angol ➔ 🇭🇺 Magyar': '🇬🇧 English ➔ 🇭🇺 Hungarian',
-            '🇭🇺 Magyar ➔ 🇬🇧 Angol': '🇭🇺 Hungarian ➔ 🇬🇧 English',
-            'Válassz gyakorlási módot:': 'Choose a practice mode:',
-            'Feleletválasztó': 'Multiple choice',
-            'Gépelés': 'Typing',
-            'Kártya': 'Flashcards',
-            'Igaz / Hamis': 'True / False',
-            'Párosító': 'Matching',
-            'Szavak száma ebben a körben:': 'Words in this round:',
-            'Összes': 'All',
-            'Indítás': 'Start',
-            'Saját szavak hozzáadása & Adatkezelés': 'Add custom words & Data management',
-            'Angol szó': 'English word',
-            'Magyar jelentés': 'Hungarian meaning',
-            'Hozzáadás': 'Add',
-            'Befejezés': 'Finish',
-            'Kifejezés': 'Phrase',
-            'Angol kifejezés': 'English phrase',
-            'Magyar kifejezés': 'Hungarian phrase',
-            'Kiejtés meghallgatása': 'Listen to pronunciation',
-            'Írd be a fordítást...': 'Type the translation...',
-            'Ellenőrzés': 'Check',
-            'Nem tudom': "I don't know",
-            'Kattints a megfordításhoz!': 'Click to flip!',
-            'Nem tudtam': "I didn't know it",
-            'Tudtam': 'I knew it',
-            'A párosítás helyes?': 'Is this pairing correct?',
-            'Hamis': 'False',
-            'Igaz': 'True',
-            'Kör Befejezve!': 'Round complete!',
-            'Szép munka!': 'Nice work!',
-            'Összesen': 'Total',
-            'Helyes': 'Correct',
-            'Hibás': 'Wrong',
-            'Rontott szavak újragyakorlása (': 'Practice mistakes again (',
-            'Új kör indítása': 'Start a new round',
-            '© 2026 - Vocabularfy by KS44': '© 2026 - Vocabularfy by KS44',
-            // Dinamikus üzenetek
-            '{0} / {1}. szó': 'Word {0} / {1}',
-            '{0} / {1} pár': '{0} / {1} pairs',
-            'Helyes válasz! 🎉': 'Correct! 🎉',
-            'Helytelen! A helyes: {0}': 'Wrong! The correct answer: {0}',
-            'Pontos válasz! 👏': 'Exactly right! 👏',
-            'Nem pontos. Helyes: {0}': 'Not quite. Correct: {0}',
-            'Írj be egy választ, vagy válaszd a „Nem tudom” gombot!': 'Please type an answer, or press “I don\'t know”!',
-            'Helyesként elmentve! 👍': 'Saved as correct! 👍',
-            'Rögzítve hibásként! 💡': 'Recorded as wrong! 💡',
-            'Hibás! A helyes párosítás: {0} = {1}': 'Wrong! The correct pairing: {0} = {1}',
-            'Szó sikeresen hozzáadva!': 'Word added successfully!',
-            'Ez a szópár már létezik.': 'This word pair already exists.',
-            '{0} új szó importálva!': '{0} new words imported!',
-            'Nem található új, érvényes szópár a fájlban.': 'No new, valid word pairs found in the file.',
-            'Érvénytelen JSON fájl!': 'Invalid JSON file!'
-        };
-        const I18N_REV = Object.fromEntries(Object.entries(I18N).map(([hu, en]) => [en, hu]));
-        let currentLang = 'hu';
-
-        function t(key, ...args) {
-            const text = (currentLang === 'en' && I18N[key]) ? I18N[key] : key;
-            return text.replace(/\{(\d+)\}/g, (_, i) => args[i]);
-        }
-
-        // A statikus HTML szövegeit és attribútumait cseréli a kiválasztott nyelvre.
-        function translateStatic() {
-            const map = currentLang === 'en' ? I18N : I18N_REV;
-            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-                acceptNode: n => (n.parentElement && !['SCRIPT', 'STYLE'].includes(n.parentElement.tagName))
-                    ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT
-            });
-            const nodes = [];
-            while (walker.nextNode()) nodes.push(walker.currentNode);
-            nodes.forEach(node => {
-                const core = node.nodeValue.trim();
-                if (core && map[core]) node.nodeValue = node.nodeValue.replace(core, () => map[core]);
-            });
-            document.querySelectorAll('[placeholder], [aria-label], [title]').forEach(el => {
-                ['placeholder', 'aria-label', 'title'].forEach(attr => {
-                    const val = el.getAttribute(attr);
-                    if (val && map[val]) el.setAttribute(attr, map[val]);
-                });
-            });
-        }
-
-        function setLanguage(lang) {
-            currentLang = lang === 'en' ? 'en' : 'hu';
-            try { localStorage.setItem('lang', currentLang); } catch (e) {}
-            document.documentElement.lang = currentLang;
-            document.title = t('Angol-Magyar Szógyakorló Pro');
-            translateStatic();
-
-            ['hu', 'en'].forEach(l => {
-                const btn = document.getElementById(`lang-btn-${l}`);
-                const active = l === currentLang;
-                btn.setAttribute('aria-pressed', String(active));
-                btn.className = 'min-h-[44px] px-2.5 transition-colors ' + (active
-                    ? 'bg-white text-indigo-700'
-                    : 'bg-indigo-700 dark:bg-indigo-800 text-white hover:bg-indigo-800 dark:hover:bg-indigo-700');
-            });
-            refreshDynamicText();
-        }
-
-        function initLanguage() {
-            let saved = 'hu'; // alapértelmezett: magyar
-            try { saved = localStorage.getItem('lang') || 'hu'; } catch (e) {}
-            setLanguage(saved);
-        }
-
-        function refreshDynamicText() {
-            renderStreak();
-            updateThemeUI(document.documentElement.classList.contains('dark'));
-            if (sessionActive) {
-                updateStepText();
-                updateLangLabel();
-            }
-            if (lastFeedback) showFeedback(lastFeedback.key, lastFeedback.css, ...lastFeedback.args);
-        }
-
-        // ======================= SEGÉDFÜGGVÉNYEK =======================
-        function shuffle(arr) {
-            const a = [...arr];
-            for (let i = a.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [a[i], a[j]] = [a[j], a[i]];
-            }
-            return a;
-        }
-
-        function getPrompt(word) {
-            return selectedDirection === 'en-hu' ? word.en : word.hu;
-        }
-
-        function getTarget(word) {
-            return selectedDirection === 'en-hu' ? word.hu : word.en;
-        }
-
-        // Hibás válaszlehetőségek: nem lehet köztük az adott szó másik, helyes fordítása sem.
-        function getDistractors(current, count) {
-            const seen = new Set([getTarget(current)]);
-            const pool = [];
-            shuffle(wordList).forEach(w => {
-                const target = getTarget(w);
-                if (getPrompt(w) === getPrompt(current) || seen.has(target)) return;
-                seen.add(target);
-                pool.push(target);
-            });
-            return pool.slice(0, count);
-        }
-
-        function markFailed(word) {
-            if (!failedWords.includes(word)) failedWords.push(word);
-        }
-
-        function advanceAfterDelay() {
-            currentIndex++;
-            updateStatsBar();
-            nextTimeoutId = setTimeout(renderCurrentWord, NEXT_WORD_DELAY);
-        }
-
-        // ======================= SZÓLISTA =======================
-        const isValidWord = w => w && typeof w.en === 'string' && typeof w.hu === 'string' && w.en.trim() && w.hu.trim();
-        const wordKey = w => `${w.en.trim().toLowerCase()}|${w.hu.trim().toLowerCase()}`;
-
-        function readCustomWords() {
-            try {
-                const saved = JSON.parse(localStorage.getItem('custom_words') || '[]');
-                return Array.isArray(saved) ? saved.filter(isValidWord) : [];
-            } catch (e) {
-                return [];
-            }
-        }
 
         function loadSavedWords() {
-            wordList = [...defaultWords, ...readCustomWords()];
-        }
-
-        function saveCustomWords(newWords) {
-            localStorage.setItem('custom_words', JSON.stringify([...readCustomWords(), ...newWords]));
-        }
-
-        function addCustomWord(e) {
-            e.preventDefault();
-            const en = document.getElementById('custom-en').value.trim();
-            const hu = document.getElementById('custom-hu').value.trim();
-            if (!en || !hu) return;
-
-            const newWord = { en, hu };
-            if (wordList.some(w => wordKey(w) === wordKey(newWord))) {
-                alert(t('Ez a szópár már létezik.'));
-                return;
-            }
-            wordList.push(newWord);
-            saveCustomWords([newWord]);
-            alert(t('Szó sikeresen hozzáadva!'));
-            document.getElementById('custom-en').value = '';
-            document.getElementById('custom-hu').value = '';
-        }
-
-        function exportWords() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(wordList, null, 2));
-            const a = document.createElement('a');
-            a.setAttribute('href', dataStr);
-            a.setAttribute('download', 'szavak.json');
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-        }
-
-        function importWords(event) {
-            const input = event.target;
-            const file = input.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function (e) {
+            const saved = localStorage.getItem('custom_words');
+            if (saved) {
                 try {
-                    const imported = JSON.parse(e.target.result);
-                    if (!Array.isArray(imported)) throw new Error('Not an array');
-
-                    const known = new Set(wordList.map(wordKey));
-                    const fresh = [];
-                    imported.filter(isValidWord).forEach(w => {
-                        const word = { en: w.en.trim(), hu: w.hu.trim() };
-                        const key = wordKey(word);
-                        if (!known.has(key)) {
-                            known.add(key);
-                            fresh.push(word);
-                        }
-                    });
-
-                    if (fresh.length === 0) {
-                        alert(t('Nem található új, érvényes szópár a fájlban.'));
-                        return;
-                    }
-                    wordList.push(...fresh);
-                    saveCustomWords(fresh);
-                    alert(t('{0} új szó importálva!', fresh.length));
-                } catch (err) {
-                    alert(t('Érvénytelen JSON fájl!'));
-                }
-            };
-            reader.readAsText(file);
-            input.value = ''; // ugyanaz a fájl újra is importálható
+                    const parsed = JSON.parse(saved);
+                    wordList = [...defaultWords, ...parsed];
+                } catch(e) {}
+            }
         }
 
-        // ======================= NAPI SOROZAT =======================
         async function fetchCurrentDateString() {
-            const controller = new AbortController();
-            const timer = setTimeout(() => controller.abort(), 2500);
             try {
-                const response = await fetch('https://worldtimeapi.org/api/timezone/Etc/UTC', { cache: 'no-store', signal: controller.signal });
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const response = await fetch('https://worldtimeapi.org/api/timezone/Etc/UTC', { cache: 'no-store' });
                 const data = await response.json();
                 return data.datetime.split('T')[0];
             } catch (error) {
                 console.warn("Hálózati idő lekérése sikertelen, helyi idő használata.", error);
                 return new Date().toISOString().split('T')[0];
-            } finally {
-                clearTimeout(timer);
             }
         }
 
@@ -635,36 +365,39 @@
             return Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
         }
 
-        function computeStreak(todayStr, increment) {
-            const lastDateStr = localStorage.getItem('last_practice_date');
-            const stored = parseInt(localStorage.getItem('practice_streak') || '1', 10) || 1;
-            if (!lastDateStr) return 1;
-
-            const diffDays = getDaysDifference(lastDateStr, todayStr);
-            if (diffDays <= 0) return stored;                  // ma már gyakorolt
-            if (diffDays === 1) return increment ? stored + 1 : stored; // tegnap gyakorolt
-            return 1;                                          // kihagyott nap(ok)
-        }
-
-        function renderStreak() {
-            document.getElementById('streak-count').innerText = currentStreak;
-            document.getElementById('streak-unit').innerText =
-                currentLang === 'en' ? (currentStreak === 1 ? 'day' : 'days') : 'nap';
-        }
-
         async function updateStreak() {
             const todayStr = await fetchCurrentDateString();
-            currentStreak = computeStreak(todayStr, false);
-            localStorage.setItem('practice_streak', String(currentStreak));
-            renderStreak();
+            const lastDateStr = localStorage.getItem('last_practice_date');
+            let streak = parseInt(localStorage.getItem('practice_streak') || '1', 10);
+
+            if (!lastDateStr) {
+                streak = 1;
+            } else {
+                const diffDays = getDaysDifference(lastDateStr, todayStr);
+
+                if (diffDays === 0) {
+                    // Ma már volt megnyitva, megtartjuk
+                } else if (diffDays === 1) {
+                    // Tegnap volt gyakorolva, a streak él
+                } else {
+                    // Több nap telt el -> minimum 1-re áll vissza
+                    streak = 1;
+                    localStorage.setItem('practice_streak', '1');
+                }
+            }
+
+            document.getElementById('streak-count').innerText = streak;
         }
 
-        // ======================= TÉMA =======================
         function initTheme() {
             const savedTheme = localStorage.getItem('theme');
-            const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
-            document.documentElement.classList.toggle('dark', isDark);
-            updateThemeUI(isDark);
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                updateThemeUI(true);
+            } else {
+                document.documentElement.classList.remove('dark');
+                updateThemeUI(false);
+            }
         }
 
         function toggleTheme() {
@@ -674,66 +407,77 @@
         }
 
         function updateThemeUI(isDark) {
-            document.getElementById('theme-icon').className = isDark ? 'fa-solid fa-sun text-yellow-300' : 'fa-solid fa-moon';
-            document.getElementById('theme-text').innerText = t(isDark ? 'Világos mód' : 'Sötét mód');
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (isDark) {
+                icon.className = 'fa-solid fa-sun text-yellow-300';
+                text.innerText = 'Világos mód';
+            } else {
+                icon.className = 'fa-solid fa-moon';
+                text.innerText = 'Sötét mód';
+            }
         }
-
-        // ======================= BEÁLLÍTÁSOK =======================
-        const DIR_ON = "dir-btn min-h-[44px] py-2.5 px-3 rounded-xl text-sm font-semibold border-2 border-indigo-600 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300";
-        const DIR_OFF = "dir-btn min-h-[44px] py-2.5 px-3 rounded-xl text-sm font-semibold border-2 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300";
-        const MODE_ON = "mode-setup-btn min-h-[48px] py-2 px-2 rounded-xl text-xs sm:text-sm font-semibold border-2 border-indigo-600 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300";
-        const MODE_OFF = "mode-setup-btn min-h-[48px] py-2 px-2 rounded-xl text-xs sm:text-sm font-semibold border-2 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300";
-        const LIMIT_ON = "limit-btn min-h-[40px] py-2 rounded-xl text-sm font-bold border-2 border-indigo-600 bg-indigo-600 text-white";
-        const LIMIT_OFF = "limit-btn min-h-[40px] py-2 rounded-xl text-sm font-bold border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200";
 
         function selectDirection(dir) {
             selectedDirection = dir;
-            document.querySelectorAll('.dir-btn').forEach(btn => btn.className = DIR_OFF);
-            document.getElementById(`dir-btn-${dir}`).className = DIR_ON;
+            document.querySelectorAll('.dir-btn').forEach(btn => btn.className = "dir-btn min-h-[44px] py-2.5 px-3 rounded-xl text-sm font-semibold border-2 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300");
+            const active = document.getElementById(`dir-btn-${dir}`);
+            active.className = "dir-btn min-h-[44px] py-2.5 px-3 rounded-xl text-sm font-semibold border-2 border-indigo-600 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300";
         }
 
         function selectSetupMode(mode) {
             selectedMode = mode;
-            document.querySelectorAll('.mode-setup-btn').forEach(btn => btn.className = MODE_OFF);
-            document.getElementById(`setup-btn-${mode}`).className = MODE_ON;
+            document.querySelectorAll('.mode-setup-btn').forEach(btn => btn.className = "mode-setup-btn min-h-[48px] py-2 px-2 rounded-xl text-xs sm:text-sm font-semibold border-2 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300");
+            const activeBtn = document.getElementById(`setup-btn-${mode}`);
+            activeBtn.className = "mode-setup-btn min-h-[48px] py-2 px-2 rounded-xl text-xs sm:text-sm font-semibold border-2 border-indigo-600 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300";
         }
 
-        function selectLimit(limit, btn) {
+        function selectLimit(limit) {
             selectedLimit = limit;
-            document.querySelectorAll('.limit-btn').forEach(b => b.className = LIMIT_OFF);
-            btn.className = LIMIT_ON;
+            document.querySelectorAll('.limit-btn').forEach(btn => btn.className = "limit-btn min-h-[40px] py-2 rounded-xl text-sm font-bold border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200");
+            event.currentTarget.className = "limit-btn min-h-[40px] py-2 rounded-xl text-sm font-bold border-2 border-indigo-600 bg-indigo-600 text-white";
         }
 
-        // ======================= GYAKORLÁS =======================
+        function getPrompt(word) {
+            return selectedDirection === 'en-hu' ? word.en : word.hu;
+        }
+
+        function getTarget(word) {
+            return selectedDirection === 'en-hu' ? word.hu : word.en;
+        }
+
         async function startSession() {
             clearTimeout(nextTimeoutId);
-
+            
             const todayStr = await fetchCurrentDateString();
-            currentStreak = computeStreak(todayStr, true);
-            localStorage.setItem('last_practice_date', todayStr);
-            localStorage.setItem('practice_streak', String(currentStreak));
-            renderStreak();
+            const lastDateStr = localStorage.getItem('last_practice_date');
+            let streak = parseInt(localStorage.getItem('practice_streak') || '1', 10);
 
-            const shuffled = shuffle(wordList);
+            if (!lastDateStr) {
+                streak = 1;
+            } else {
+                const diffDays = getDaysDifference(lastDateStr, todayStr);
+                if (diffDays === 0) {
+                    // Ma már indított gyakorlást, streak maradhat
+                } else if (diffDays === 1) {
+                    streak += 1; // Következő nap -> növekszik
+                } else {
+                    streak = 1; // Kihagyott nap után újrakezdődik 1-ről
+                }
+            }
+
+            localStorage.setItem('last_practice_date', todayStr);
+            localStorage.setItem('practice_streak', streak.toString());
+            document.getElementById('streak-count').innerText = streak;
+
+            const shuffled = [...wordList].sort(() => Math.random() - 0.5);
             const count = selectedLimit === 'all' ? shuffled.length : Math.min(selectedLimit, shuffled.length);
             sessionWords = shuffled.slice(0, count);
             failedWords = [];
-            beginRound();
-        }
 
-        function startFailedOnlySession() {
-            clearTimeout(nextTimeoutId);
-            sessionWords = shuffle(failedWords);
-            failedWords = [];
-            beginRound();
-        }
-
-        function beginRound() {
             currentIndex = 0;
             correctAnswers = 0;
             wrongAnswers = 0;
-            sessionActive = true;
-            hideFeedback();
 
             document.getElementById('setup-screen').classList.add('hidden');
             document.getElementById('summary-screen').classList.add('hidden');
@@ -743,26 +487,30 @@
             ['quiz', 'type', 'flashcard', 'tf', 'match'].forEach(m => document.getElementById(`${m}-mode`).classList.add('hidden'));
             document.getElementById(`${selectedMode}-mode`).classList.remove('hidden');
 
-            const isMatch = selectedMode === 'match';
-            document.getElementById('word-display-container').classList.toggle('hidden', isMatch);
-            if (isMatch) {
+            if (selectedMode === 'match') {
+                document.getElementById('word-display-container').classList.add('hidden');
                 setupMatchingGame();
             } else {
+                document.getElementById('word-display-container').classList.remove('hidden');
                 renderCurrentWord();
             }
         }
 
-        function updateLangLabel() {
-            document.getElementById('word-lang-label').innerText =
-                t(selectedDirection === 'en-hu' ? 'Angol kifejezés' : 'Magyar kifejezés');
-        }
+        function startFailedOnlySession() {
+            sessionWords = [...failedWords];
+            failedWords = [];
+            currentIndex = 0;
+            correctAnswers = 0;
+            wrongAnswers = 0;
 
-        function updateStepText() {
-            const total = sessionWords.length;
-            const text = selectedMode === 'match'
-                ? t('{0} / {1} pár', matchedPairsCount, total)
-                : t('{0} / {1}. szó', Math.min(isAnswered ? currentIndex : currentIndex + 1, total), total);
-            document.getElementById('current-step-text').innerText = text;
+            document.getElementById('summary-screen').classList.add('hidden');
+            document.getElementById('practice-container').classList.remove('hidden');
+            document.getElementById('stats-bar').classList.remove('hidden');
+
+            ['quiz', 'type', 'flashcard', 'tf', 'match'].forEach(m => document.getElementById(`${m}-mode`).classList.add('hidden'));
+            document.getElementById(`${selectedMode}-mode`).classList.remove('hidden');
+
+            renderCurrentWord();
         }
 
         function renderCurrentWord() {
@@ -774,16 +522,18 @@
             isAnswered = false;
             isFlipped = false;
             hideFeedback();
-
+            
             const cardInner = document.getElementById('card-inner');
             if (cardInner) cardInner.classList.remove('flipped');
             const flashcardActions = document.getElementById('flashcard-actions');
             if (flashcardActions) flashcardActions.classList.add('hidden');
 
             const current = sessionWords[currentIndex];
+            const currentStepNumber = currentIndex + 1;
+
             document.getElementById('word-prompt').innerText = getPrompt(current);
-            updateLangLabel();
-            updateStepText();
+            document.getElementById('word-lang-label').innerText = selectedDirection === 'en-hu' ? 'Angol kifejezés' : 'Magyar kifejezés';
+            document.getElementById('current-step-text').innerText = `${currentStepNumber} / ${sessionWords.length}. szó`;
             updateStatsBar();
 
             if (selectedMode === 'quiz') {
@@ -791,9 +541,8 @@
             } else if (selectedMode === 'type') {
                 const typeInput = document.getElementById('type-input');
                 typeInput.disabled = false;
-                typeInput.value = '';
                 document.getElementById('type-submit-btn').disabled = false;
-                document.getElementById('type-skip-btn').disabled = false;
+                typeInput.value = '';
                 setTimeout(() => typeInput.focus(), 50);
             } else if (selectedMode === 'flashcard') {
                 document.getElementById('card-answer').innerText = getTarget(current);
@@ -804,18 +553,22 @@
             }
         }
 
-        // ---- Feleletválasztó ----
         function setupQuizOptions(current) {
             const container = document.getElementById('quiz-mode');
             container.innerHTML = '';
 
-            const options = shuffle([getTarget(current), ...getDistractors(current, 3)]);
-            options.forEach(opt => {
+            let options = [getTarget(current)];
+            while (options.length < 4) {
+                const randWord = wordList[Math.floor(Math.random() * wordList.length)];
+                const randTarget = getTarget(randWord);
+                if (!options.includes(randTarget)) options.push(randTarget);
+            }
+            options.sort(() => Math.random() - 0.5);
+
+            options.forEach((opt) => {
                 const btn = document.createElement('button');
-                btn.type = 'button';
                 btn.className = "min-h-[48px] p-4 text-left border-2 border-slate-200 dark:border-slate-700 rounded-xl hover:border-indigo-500 font-medium text-slate-700 dark:text-slate-200";
                 btn.innerText = opt;
-                btn.dataset.value = opt;
                 btn.onclick = () => checkQuizAnswer(opt, btn, current);
                 container.appendChild(btn);
             });
@@ -828,90 +581,55 @@
             const target = getTarget(current);
             document.querySelectorAll('#quiz-mode button').forEach(btn => {
                 btn.disabled = true;
-                if (btn.dataset.value === target) {
+                if (btn.innerText === target) {
                     btn.className = "min-h-[48px] p-4 text-left border-2 border-green-500 bg-green-50 text-green-900 font-bold rounded-xl";
                 }
             });
 
             if (selected === target) {
                 correctAnswers++;
-                showFeedback('Helyes válasz! 🎉', FEEDBACK_OK);
+                showFeedback("Helyes válasz! 🎉", "bg-green-100 text-green-800 border border-green-300");
             } else {
                 button.className = "min-h-[48px] p-4 text-left border-2 border-red-500 bg-red-50 text-red-900 font-bold rounded-xl";
                 wrongAnswers++;
-                markFailed(current);
-                showFeedback('Helytelen! A helyes: {0}', FEEDBACK_BAD, target);
+                failedWords.push(current);
+                showFeedback(`Helytelen! A helyes: ${target}`, "bg-red-100 text-red-800 border border-red-300");
             }
-            advanceAfterDelay();
-        }
 
-        // ---- Gépelés ----
-        const normalizeText = s => s.toLowerCase().replace(/\s+/g, ' ').trim();
-
-        // Elfogadott válaszok: a teljes szöveg, a zárójel nélküli változat,
-        // valamint a vesszővel / pontosvesszővel / perjellel elválasztott jelentések külön-külön.
-        function acceptableAnswers(target) {
-            const answers = new Set([normalizeText(target)]);
-            const withoutParens = target.replace(/\([^)]*\)/g, ' ');
-            answers.add(normalizeText(withoutParens));
-            withoutParens.split(/[,;\/]/).forEach(part => answers.add(normalizeText(part)));
-            answers.delete('');
-            return answers;
+            currentIndex++;
+            nextTimeoutId = setTimeout(renderCurrentWord, NEXT_WORD_DELAY);
         }
 
         function checkTypedAnswer(e) {
             e.preventDefault();
             if (isAnswered) return;
 
-            const input = document.getElementById('type-input');
-            const userVal = normalizeText(input.value);
-
-            // Üres válasz nem ellenőrizhető: figyelmeztetés, a kör nem lép tovább
-            if (!userVal) {
-                showFeedback('Írj be egy választ, vagy válaszd a „Nem tudom” gombot!', FEEDBACK_WARN);
-                input.focus();
-                return;
-            }
-
             const current = sessionWords[currentIndex];
-            completeTyped(acceptableAnswers(getTarget(current)).has(userVal), current);
-        }
+            const target = getTarget(current).toLowerCase();
+            const userVal = document.getElementById('type-input').value.trim().toLowerCase();
 
-        function skipTypedAnswer() {
-            if (isAnswered) return;
-            completeTyped(false, sessionWords[currentIndex]);
-        }
-
-        function completeTyped(correct, current) {
             isAnswered = true;
             document.getElementById('type-input').disabled = true;
             document.getElementById('type-submit-btn').disabled = true;
-            document.getElementById('type-skip-btn').disabled = true;
 
-            if (correct) {
+            if (userVal === target || target.includes(userVal)) {
                 correctAnswers++;
-                showFeedback('Pontos válasz! 👏', FEEDBACK_OK);
+                showFeedback("Pontos válasz! 👏", "bg-green-100 text-green-800 border border-green-300");
             } else {
                 wrongAnswers++;
-                markFailed(current);
-                showFeedback('Nem pontos. Helyes: {0}', FEEDBACK_BAD, getTarget(current));
+                failedWords.push(current);
+                showFeedback(`Nem pontos. Helyes: ${getTarget(current)}`, "bg-red-100 text-red-800 border border-red-300");
             }
-            advanceAfterDelay();
+
+            currentIndex++;
+            nextTimeoutId = setTimeout(renderCurrentWord, NEXT_WORD_DELAY);
         }
 
-        // ---- Kártya ----
         function flipCard() {
             if (!isFlipped) {
                 document.getElementById('card-inner').classList.add('flipped');
                 document.getElementById('flashcard-actions').classList.remove('hidden');
                 isFlipped = true;
-            }
-        }
-
-        function handleCardKeyDown(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                flipCard();
             }
         }
 
@@ -924,23 +642,25 @@
 
             if (known) {
                 correctAnswers++;
-                showFeedback('Helyesként elmentve! 👍', FEEDBACK_OK);
+                showFeedback("Helyesként elmentve! 👍", "bg-green-100 text-green-800 border border-green-300");
             } else {
                 wrongAnswers++;
-                markFailed(sessionWords[currentIndex]);
-                showFeedback('Rögzítve hibásként! 💡', FEEDBACK_BAD);
+                failedWords.push(sessionWords[currentIndex]);
+                showFeedback("Rögzítve hibásként! 💡", "bg-red-100 text-red-800 border border-red-300");
             }
-            advanceAfterDelay();
+
+            currentIndex++;
+            nextTimeoutId = setTimeout(renderCurrentWord, NEXT_WORD_DELAY);
         }
 
-        // ---- Igaz / Hamis ----
         function setupTFOptions(current) {
             isTFCurrentCorrect = Math.random() > 0.5;
-            let targetText = getTarget(current);
-            if (!isTFCurrentCorrect) {
-                const wrong = getDistractors(current, 1)[0];
-                if (wrong) targetText = wrong;
-                else isTFCurrentCorrect = true; // nincs elég eltérő szó -> igaz állítás
+            let targetText = "";
+            if (isTFCurrentCorrect) {
+                targetText = getTarget(current);
+            } else {
+                const rand = wordList[Math.floor(Math.random() * wordList.length)];
+                targetText = getTarget(rand);
             }
             document.getElementById('tf-target-word').innerText = targetText;
             document.getElementById('tf-true-btn').disabled = false;
@@ -954,23 +674,18 @@
             document.getElementById('tf-true-btn').disabled = true;
             document.getElementById('tf-false-btn').disabled = true;
 
-            const word = sessionWords[currentIndex];
             if (userChoice === isTFCurrentCorrect) {
                 correctAnswers++;
-                showFeedback('Helyes válasz! 🎉', FEEDBACK_OK);
+                showFeedback("Helyes válasz! 🎉", "bg-green-100 text-green-800 border border-green-300");
             } else {
                 wrongAnswers++;
-                markFailed(word);
-                showFeedback('Hibás! A helyes párosítás: {0} = {1}', FEEDBACK_BAD, getPrompt(word), getTarget(word));
+                failedWords.push(sessionWords[currentIndex]);
+                showFeedback(`Hibás! A helyes párosítás: ${getPrompt(sessionWords[currentIndex])} = ${getTarget(sessionWords[currentIndex])}`, "bg-red-100 text-red-800 border border-red-300");
             }
-            advanceAfterDelay();
-        }
 
-        // ---- Párosító ----
-        const MATCH_BASE = "p-3 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-semibold text-sm";
-        const MATCH_DONE = "p-3 border-2 border-green-500 bg-green-100 text-green-800 rounded-xl font-semibold text-sm matched opacity-50";
-        const MATCH_HL = ['border-indigo-500', 'bg-indigo-50', 'dark:bg-indigo-950'];
-        const MATCH_ERR = ['border-red-500', 'bg-red-100', 'dark:bg-red-950'];
+            currentIndex++;
+            nextTimeoutId = setTimeout(renderCurrentWord, NEXT_WORD_DELAY);
+        }
 
         function setupMatchingGame() {
             const grid = document.getElementById('match-grid');
@@ -978,136 +693,167 @@
             matchedPairsCount = 0;
             matchLeftSelected = null;
             matchRightSelected = null;
-            matchLocked = false;
 
-            const prompts = shuffle(sessionWords.map((w, i) => ({ id: i, text: getPrompt(w), type: 'prompt' })));
-            const targets = shuffle(sessionWords.map((w, i) => ({ id: i, text: getTarget(w), type: 'target' })));
+            const prompts = sessionWords.map((w, i) => ({ id: i, text: getPrompt(w), type: 'prompt' })).sort(() => Math.random() - 0.5);
+            const targets = sessionWords.map((w, i) => ({ id: i, text: getTarget(w), type: 'target' })).sort(() => Math.random() - 0.5);
 
-            // Soronként egy kérdés (bal oszlop) és egy válasz (jobb oszlop)
-            prompts.forEach((p, i) => {
-                [p, targets[i]].forEach(item => {
-                    const btn = document.createElement('button');
-                    btn.type = 'button';
-                    btn.className = MATCH_BASE;
-                    btn.innerText = item.text;
-                    btn.onclick = () => handleMatchSelect(btn, item);
-                    grid.appendChild(btn);
-                });
+            prompts.forEach(p => {
+                const btn = document.createElement('button');
+                btn.className = "p-3 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-semibold text-sm";
+                btn.innerText = p.text;
+                btn.onclick = () => handleMatchSelect(btn, p);
+                grid.appendChild(btn);
             });
-            updateStepText();
-            updateStatsBar();
+
+            targets.forEach(t => {
+                const btn = document.createElement('button');
+                btn.className = "p-3 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-semibold text-sm";
+                btn.innerText = t.text;
+                btn.onclick = () => handleMatchSelect(btn, t);
+                grid.appendChild(btn);
+            });
         }
 
         function handleMatchSelect(btn, item) {
-            if (matchLocked || btn.classList.contains('matched')) return;
+            if (btn.classList.contains('matched')) return;
 
             if (item.type === 'prompt') {
-                if (matchLeftSelected) matchLeftSelected.btn.classList.remove(...MATCH_HL);
+                if (matchLeftSelected) matchLeftSelected.btn.classList.remove('border-indigo-500', 'bg-indigo-50');
                 matchLeftSelected = { btn, item };
+                btn.classList.add('border-indigo-500', 'bg-indigo-50');
             } else {
-                if (matchRightSelected) matchRightSelected.btn.classList.remove(...MATCH_HL);
+                if (matchRightSelected) matchRightSelected.btn.classList.remove('border-indigo-500', 'bg-indigo-50');
                 matchRightSelected = { btn, item };
+                btn.classList.add('border-indigo-500', 'bg-indigo-50');
             }
-            btn.classList.add(...MATCH_HL);
 
-            if (!(matchLeftSelected && matchRightSelected)) return;
-
-            const left = matchLeftSelected;
-            const right = matchRightSelected;
-            matchLeftSelected = null;
-            matchRightSelected = null;
-
-            const wl = sessionWords[left.item.id];
-            const wr = sessionWords[right.item.id];
-            // Helyes, ha ugyanaz a szó, vagy ha azonos a kérdés / a válasz szövege
-            // (pl. két különböző szónak azonos a fordítása).
-            const isMatch = left.item.id === right.item.id || getPrompt(wl) === getPrompt(wr) || getTarget(wl) === getTarget(wr);
-
-            if (isMatch) {
-                [left.btn, right.btn].forEach(b => { b.className = MATCH_DONE; b.disabled = true; });
-                correctAnswers++;
-                matchedPairsCount++;
-                updateStepText();
-                updateStatsBar();
-                if (matchedPairsCount === sessionWords.length) nextTimeoutId = setTimeout(endSession, 1000);
-            } else {
-                wrongAnswers++;
-                markFailed(wl);
-                updateStatsBar();
-                matchLocked = true;
-                [left.btn, right.btn].forEach(b => b.classList.add(...MATCH_ERR));
-                setTimeout(() => {
-                    [left.btn, right.btn].forEach(b => b.classList.remove(...MATCH_HL, ...MATCH_ERR));
-                    matchLocked = false;
-                }, 600);
+            if (matchLeftSelected && matchRightSelected) {
+                if (matchLeftSelected.item.id === matchRightSelected.item.id) {
+                    matchLeftSelected.btn.className = "p-3 border-2 border-green-500 bg-green-100 text-green-800 rounded-xl font-semibold text-sm matched opacity-50";
+                    matchRightSelected.btn.className = "p-3 border-2 border-green-500 bg-green-100 text-green-800 rounded-xl font-semibold text-sm matched opacity-50";
+                    correctAnswers++;
+                    matchedPairsCount++;
+                    if (matchedPairsCount === sessionWords.length) setTimeout(endSession, 1000);
+                } else {
+                    wrongAnswers++;
+                    failedWords.push(sessionWords[matchLeftSelected.item.id]);
+                }
+                matchLeftSelected = null;
+                matchRightSelected = null;
             }
         }
 
-        // ======================= KIEJTÉS =======================
         function speakCurrentWord() {
-            if (!('speechSynthesis' in window) || !sessionWords[currentIndex]) return;
+            if ('speechSynthesis' in window && sessionWords[currentIndex]) {
+                window.speechSynthesis.cancel();
 
-            const synth = window.speechSynthesis;
-            synth.cancel();
+                const text = selectedDirection === 'en-hu' ? sessionWords[currentIndex].en : sessionWords[currentIndex].hu;
+                const langCode = selectedDirection === 'en-hu' ? 'en-US' : 'hu-HU';
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = langCode;
+                utterance.rate = 0.95;
 
-            const word = sessionWords[currentIndex];
-            const isEnglish = selectedDirection === 'en-hu';
-            const utterance = new SpeechSynthesisUtterance(isEnglish ? word.en : word.hu);
-            utterance.lang = isEnglish ? 'en-US' : 'hu-HU';
-            utterance.rate = 0.95;
+                const setVoiceAndSpeak = () => {
+                    const voices = window.speechSynthesis.getVoices();
+                    
+                    if (voices.length > 0) {
+                        if (selectedDirection === 'en-hu') {
+                            let englishVoice = voices.find(v => v.name.includes('Google US English') || v.name.includes('Google UK English')) ||
+                                               voices.find(v => v.lang === 'en-US' || v.lang === 'en-GB') || 
+                                               voices.find(v => v.lang.startsWith('en'));
+                            if (englishVoice) {
+                                utterance.voice = englishVoice;
+                            }
+                        } else {
+                            let hungarianVoice = voices.find(v => v.lang === 'hu-HU' || v.lang.startsWith('hu'));
+                            if (hungarianVoice) {
+                                utterance.voice = hungarianVoice;
+                            }
+                        }
+                    }
+                    window.speechSynthesis.speak(utterance);
+                };
 
-            let spoken = false; // megakadályozza a dupla felolvasást
-            const speak = () => {
-                if (spoken) return;
-                spoken = true;
-                const voices = synth.getVoices();
-                const voice = isEnglish
-                    ? (voices.find(v => v.name.includes('Google US English') || v.name.includes('Google UK English')) ||
-                       voices.find(v => v.lang === 'en-US' || v.lang === 'en-GB') ||
-                       voices.find(v => v.lang.startsWith('en')))
-                    : voices.find(v => v.lang.startsWith('hu'));
-                if (voice) utterance.voice = voice;
-                synth.speak(utterance);
-            };
-
-            if (synth.getVoices().length === 0) {
-                synth.onvoiceschanged = () => { synth.onvoiceschanged = null; speak(); };
-                setTimeout(speak, 150);
-            } else {
-                speak();
+                const voices = window.speechSynthesis.getVoices();
+                if (voices.length === 0) {
+                    window.speechSynthesis.onvoiceschanged = () => {
+                        setVoiceAndSpeak();
+                        window.speechSynthesis.onvoiceschanged = null;
+                    };
+                    setTimeout(setVoiceAndSpeak, 150);
+                } else {
+                    setVoiceAndSpeak();
+                }
             }
         }
 
-        // ======================= VISSZAJELZÉS / ÁLLAPOT =======================
-        function showFeedback(key, cssClasses, ...args) {
-            lastFeedback = { key, css: cssClasses, args };
+        function showFeedback(msg, cssClasses) {
             const fb = document.getElementById('feedback');
-            fb.innerText = t(key, ...args);
+            fb.innerText = msg;
             fb.className = `mt-4 p-3 rounded-xl text-center font-bold animate-fade-in ${cssClasses}`;
             fb.classList.remove('hidden');
         }
 
         function hideFeedback() {
-            lastFeedback = null;
             document.getElementById('feedback').classList.add('hidden');
         }
 
         function updateStatsBar() {
-            const progress = selectedMode === 'match' ? matchedPairsCount : currentIndex;
-            document.getElementById('progress-text').innerText = `${progress}/${sessionWords.length}`;
+            document.getElementById('progress-text').innerText = `${currentIndex}/${sessionWords.length}`;
             document.getElementById('correct-count').innerText = correctAnswers;
             document.getElementById('wrong-count').innerText = wrongAnswers;
         }
 
+        function addCustomWord(e) {
+            e.preventDefault();
+            const en = document.getElementById('custom-en').value.trim();
+            const hu = document.getElementById('custom-hu').value.trim();
+
+            if (en && hu) {
+                const newWord = { en, hu };
+                wordList.push(newWord);
+                const saved = JSON.parse(localStorage.getItem('custom_words') || '[]');
+                saved.push(newWord);
+                localStorage.setItem('custom_words', JSON.stringify(saved));
+                alert("Szó sikeresen hozzáadva!");
+                document.getElementById('custom-en').value = '';
+                document.getElementById('custom-hu').value = '';
+            }
+        }
+
+        function exportWords() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(wordList, null, 2));
+            const dlAnchorElem = document.createElement('a');
+            dlAnchorElem.setAttribute("href", dataStr);
+            dlAnchorElem.setAttribute("download", "szavak.json");
+            dlAnchorElem.click();
+        }
+
+        function importWords(event) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (Array.isArray(imported)) {
+                        wordList = [...wordList, ...imported];
+                        alert("Szavak sikeresen importálva!");
+                    }
+                } catch(err) {
+                    alert("Érvénytelen JSON fájl!");
+                }
+            };
+            reader.readAsText(event.target.files[0]);
+        }
+
         function endSession() {
             clearTimeout(nextTimeoutId);
-            sessionActive = false;
-            hideFeedback();
             document.getElementById('practice-container').classList.add('hidden');
             document.getElementById('stats-bar').classList.add('hidden');
             document.getElementById('summary-screen').classList.remove('hidden');
 
-            document.getElementById('sum-total').innerText = sessionWords.length;
+            const total = sessionWords.length;
+            document.getElementById('sum-total').innerText = total;
             document.getElementById('sum-correct').innerText = correctAnswers;
             document.getElementById('sum-wrong').innerText = wrongAnswers;
 
@@ -1122,8 +868,6 @@
 
         function showSetup() {
             clearTimeout(nextTimeoutId);
-            sessionActive = false;
-            hideFeedback();
             document.getElementById('summary-screen').classList.add('hidden');
             document.getElementById('practice-container').classList.add('hidden');
             document.getElementById('stats-bar').classList.add('hidden');
@@ -1136,7 +880,6 @@
 
         loadSavedWords();
         initTheme();
-        initLanguage();
         updateStreak();
     </script>
 </body>
