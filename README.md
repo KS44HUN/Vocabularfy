@@ -29,7 +29,7 @@ A Vocabularfy egy modern, reszponzív, önálló HTML fájlban futtatható szók
 
 ---
 
-## 🛠️ Technológiai stack
+## 🛠️ Használt web technológiák
 
 * **HTML5 & Vanilla JavaScript (ES6+)** – Az üzleti logika és az interaktív felületek kezelése.
 * **Tailwind CSS** – Gyors, reszponzív és modern dizájn keretrendszer CDN-en keresztül.
@@ -83,7 +83,7 @@ Vocabularfy is a modern, responsive English-Hungarian and Hungarian-English voca
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Web technologies used
 
 * **HTML5 & Vanilla JavaScript (ES6+)** – Core logic and interactive interface.
 * **Tailwind CSS** – Modern, responsive design framework via CDN.
