@@ -96,7 +96,7 @@ Vocabularfy is a modern, responsive English-Hungarian and Hungarian-English voca
 ## 🚀 Running Locally
 
 1. Clone or download the repository.
-2. Open the main HTML file (e.g., `vocabularfy.html`) in any modern web browser (Chrome, Firefox, Safari, Edge).
+2. Open the main HTML file `vocabularfy.html` in any modern web browser (Chrome, Firefox, Safari, Edge).
 
 ---
 
