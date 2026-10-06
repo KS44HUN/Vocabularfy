@@ -102,6 +102,6 @@ Vocabularfy is a modern, responsive English-Hungarian and Hungarian-English voca
 
 ## 📄 License
 
-Ez a projekt a **GNU General Public License v3.0 (GPL v3)** alatt érhető el. Ez azt jelenti, hogy szabadon felhasználhatod, módosíthatod és terjesztheted, de a továbbfejlesztett vagy módosított verziókat szintén nyílt forráskóddal, ugyanezen licenc alatt kell közzétenni.
+This project is licensed under the **GNU General Public License v3.0 (GPL v3)**. This means you are free to use, modify, and distribute this software, provided that any derivative works or modified versions are also released under the same open-source license.
 
 &copy; 2026 - Vocabularfy by KS44
